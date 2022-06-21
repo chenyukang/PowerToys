@@ -42,6 +42,17 @@ namespace KeyboardEventHandlers
                     key_count = std::get<Shortcut>(it->second).Size();
                 }
 
+                std::wstring process_name;
+                std::wstring key = L"mstsc";
+
+                // Allocate MAX_PATH amount of memory
+                process_name.resize(MAX_PATH);
+                ii.GetForegroundProcess(process_name);
+                if (process_name.find(key) != std::wstring::npos)
+                {
+                    return 1;
+                }
+
                 LPINPUT keyEventList = new INPUT[size_t(key_count)]();
                 memset(keyEventList, 0, sizeof(keyEventList));
 
